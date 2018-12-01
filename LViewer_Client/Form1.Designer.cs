@@ -39,6 +39,7 @@
             this.textBox_Input.Name = "textBox_Input";
             this.textBox_Input.Size = new System.Drawing.Size(500, 28);
             this.textBox_Input.TabIndex = 0;
+            this.textBox_Input.TextChanged += new System.EventHandler(this.textBox_Input_TextChanged);
             // 
             // button_Login
             // 

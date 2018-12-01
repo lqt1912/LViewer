@@ -14,9 +14,11 @@ namespace LViewer_Client
 {
     public partial class Form_Main : Form
     {
+  
         public Form_Main()
         {
             InitializeComponent();
+          
         }
         const int MAX_BUFFER_SIZE = 255;
         const int PORT_NUMBER = 9998;
@@ -33,15 +35,16 @@ namespace LViewer_Client
             try
             {
                 //Tạo client mới. 
-                //client = new TcpClient("127.0.0.1", PORT_NUMBER);
-                //client = new TcpClient(IPAddress.Any.ToString(), PORT_NUMBER);
-                client = new TcpClient("192.168.0.1", PORT_NUMBER);
+                client = new TcpClient("127.0.0.1", PORT_NUMBER);
+                
+                //client = new TcpClient("192.168.0.1", PORT_NUMBER);
                 //Sử dụng Async và Invoking để đọc nhằm tránh lag. 
                 client.GetStream().BeginRead(readBuffer, 0, MAX_BUFFER_SIZE, new AsyncCallback(DoRead), null);
 
                 //Chắc chắn form đã mở.
                 this.Show();
                 AttemptLogin();
+          
                 textBox_Status.ReadOnly = true;
             }
             catch
@@ -345,7 +348,7 @@ namespace LViewer_Client
                 listBox_Online.Items.Add(listOfUser[i]);
             }
         }
-
+    
         //Xử lý đăng nhập
         public void AttemptLogin()
         {
@@ -354,11 +357,9 @@ namespace LViewer_Client
             myfrmLogin.ShowDialog(this);
             SendData("CONNECT|" + myfrmLogin.textBox_Input.Text);
           
-            Username = myfrmLogin.textBox_Input.Text;
-            label_Username.Text = Username;
-
-            myfrmLogin.Dispose();
-           
+            this.Username = myfrmLogin.textBox_Input.Text;
+            this.label_Username.Text = Username;
+            
         }
     }
 }

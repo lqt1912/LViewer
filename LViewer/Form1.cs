@@ -32,8 +32,8 @@ namespace LViewer
         {
             try
             {
-                listener = new TcpListener(System.Net.IPAddress.Any, PORT_NUMBER);
-               // listener = new TcpListener(System.Net.IPAddress.Loopback, PORT_NUMBER);
+               // listener = new TcpListener(System.Net.IPAddress.Any, PORT_NUMBER);
+               listener = new TcpListener(System.Net.IPAddress.Loopback, PORT_NUMBER);
                 listener.Start(); //Bắt đầu lắng nghe.
                 do
                 {
