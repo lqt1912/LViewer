@@ -359,6 +359,7 @@ namespace LViewer_Client
             label_Username.Text = Username;
 
             myfrmLogin.Dispose();
+
         }
     }
 }

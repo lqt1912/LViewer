@@ -47,7 +47,7 @@
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
-            this.label1 = new System.Windows.Forms.Label();
+            this.label_UsernameFixed = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -268,21 +268,21 @@
             this.tableLayoutPanel5.Size = new System.Drawing.Size(71, 49);
             this.tableLayoutPanel5.TabIndex = 13;
             // 
-            // label1
+            // label_UsernameFixed
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(36, 53);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(46, 17);
-            this.label1.TabIndex = 14;
-            this.label1.Text = "label1";
+            this.label_UsernameFixed.AutoSize = true;
+            this.label_UsernameFixed.Location = new System.Drawing.Point(36, 53);
+            this.label_UsernameFixed.Name = "label_UsernameFixed";
+            this.label_UsernameFixed.Size = new System.Drawing.Size(46, 17);
+            this.label_UsernameFixed.TabIndex = 14;
+            this.label_UsernameFixed.Text = "label1";
             // 
             // Form_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1087, 494);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.label_UsernameFixed);
             this.Controls.Add(this.tableLayoutPanel5);
             this.Controls.Add(this.tableLayoutPanel4);
             this.Controls.Add(this.tableLayoutPanel3);
@@ -330,6 +330,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label_UsernameFixed;
     }
 }
