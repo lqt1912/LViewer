@@ -17,7 +17,7 @@ namespace LViewer
 {
     public partial class Form_Main : Form
     {
-        const int PORT_NUMBER= 9998;   //Port kết nối TCP.
+        const int PORT_NUMBER = 9998;   //Port kết nối TCP.
         Hashtable hshClients = new Hashtable(); //HashTable hiển thị danh sách user.
         TcpListener listener;
         Thread thread;
@@ -26,14 +26,14 @@ namespace LViewer
         {
             InitializeComponent();
         }
-         
+
         //Hàm DoListen tạo background listener.
         private void DoListen()
         {
             try
             {
-               // listener = new TcpListener(System.Net.IPAddress.Any, PORT_NUMBER);
-               listener = new TcpListener(System.Net.IPAddress.Loopback, PORT_NUMBER);
+                //listener = new TcpListener(System.Net.IPAddress.Any, PORT_NUMBER);
+                listener = new TcpListener(System.Net.IPAddress.Loopback, PORT_NUMBER);
                 listener.Start(); //Bắt đầu lắng nghe.
                 do
                 {
@@ -90,7 +90,7 @@ namespace LViewer
             UserConnection client;
 
             //Với mỗi user trong bảng Hash thì thực hiện các đoạn bên dưới.
-            foreach(DictionaryEntry de in hshClients)
+            foreach (DictionaryEntry de in hshClients)
             {
                 client = (UserConnection)de.Value;
                 client.SendData(strMessage);
@@ -104,7 +104,7 @@ namespace LViewer
             foreach (DictionaryEntry de in hshClients)
             {
                 client = (UserConnection)de.Value;
-                if(client.Username != user.Username)
+                if (client.Username != user.Username)
                 {
                     client.SendData(strMessage);
                 }
@@ -114,7 +114,7 @@ namespace LViewer
         //Gửi lại tin nhắn cho một người cố định có trước (username).
         private void ReplyToSender(string strMessage, UserConnection user)
         {
-           
+
             user.SendData(strMessage);
         }
 
@@ -126,7 +126,7 @@ namespace LViewer
             string userList;
             UpdateStatus("Dang gui toi " + user.Username + " danh sach nhung nguoi dang online.");
             userList = "LISTUSERS";
-            foreach(DictionaryEntry de in hshClients)
+            foreach (DictionaryEntry de in hshClients)
             {
                 client = (UserConnection)de.Value;
                 userList += client.Username;
@@ -140,36 +140,36 @@ namespace LViewer
             UpdateStatus(user.Username + ": " + message);
             SendToAllClients("CHAT|" + user.Username + ": " + message, user);
         }
-  
+
         private void button_Sender_Click(object sender, EventArgs e)
         {
-            if(textBox_Input.Text!="")
+            if (textBox_Input.Text != "")
             {
                 UpdateStatus("Server: " + textBox_Input.Text);
-               
+
                 Send("BROAD|" + textBox_Input.Text);
                 textBox_Input.Text = string.Empty;
-                
+
             }
         }
 
         private void ConnectUser(string userName, UserConnection user)
         {
-            if(hshClients.Contains(userName))
+            if (hshClients.Contains(userName))
             {
                 ReplyToSender("REFUSE", user);
             }
             else
             {
                 user.Username = userName;
-                
-                hshClients.Add(userName,user);
+
+                hshClients.Add(userName, user);
                 ReplyToSender("JOIN", user);
                 SendToAllClients("CHAT|" + "Waiting..." + user.Username + " vua dang nhap.", user);
 
             }
         }
-        
+
         //Ngắt kết nối
         private void DisconnectUser(UserConnection sender)
         {

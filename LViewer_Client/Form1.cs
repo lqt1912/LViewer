@@ -21,7 +21,7 @@ namespace LViewer_Client
 
         private void button_Login_Click(object sender, EventArgs e)
         {
-            this.Hide();
+           
         }
 
         private void textBox_Input_TextChanged(object sender, EventArgs e)

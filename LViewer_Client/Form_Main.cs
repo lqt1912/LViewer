@@ -31,20 +31,18 @@ namespace LViewer_Client
         //Khi MainForm load, trình biên dịch sẽ tạo một Form Login mới yêu cầu kết nối tới sever và đăng nhập.
         private void Form_Main_Load(object sender, EventArgs e)
         {
+
             Form_Login myfrmLogin = new Form_Login();
             try
             {
                 //Tạo client mới. 
                 client = new TcpClient("127.0.0.1", PORT_NUMBER);
-                
-                //client = new TcpClient("192.168.0.1", PORT_NUMBER);
                 //Sử dụng Async và Invoking để đọc nhằm tránh lag. 
                 client.GetStream().BeginRead(readBuffer, 0, MAX_BUFFER_SIZE, new AsyncCallback(DoRead), null);
 
                 //Chắc chắn form đã mở.
                 this.Show();
                 AttemptLogin();
-          
                 textBox_Status.ReadOnly = true;
             }
             catch
@@ -111,12 +109,12 @@ namespace LViewer_Client
             if (textBox_Input.Text != "")
             {
                 byte[] readString = Encoding.UTF8.GetBytes(textBox_Input.Text);
-         
+
                 DisplayText(Username + ":" + textBox_Input.Text + (char)13 + (char)10);
                 // SendData("CHAT|" + Ecrypt(textBox_Input.Text) );
 
-                SendData("CHAT|" + (textBox_Input.Text) );
-               // SendData("CHAT|" + readString.ToString());
+                SendData("CHAT|" + (textBox_Input.Text));
+                // SendData("CHAT|" + readString.ToString());
                 textBox_Input.Text = string.Empty;
             }
         }
@@ -356,10 +354,11 @@ namespace LViewer_Client
             myfrmLogin.StartPosition = FormStartPosition.CenterParent;
             myfrmLogin.ShowDialog(this);
             SendData("CONNECT|" + myfrmLogin.textBox_Input.Text);
-          
-            this.Username = myfrmLogin.textBox_Input.Text;
-            this.label_Username.Text = Username;
-            
+
+            Username = myfrmLogin.textBox_Input.Text;
+            label_Username.Text = Username;
+
+            myfrmLogin.Dispose();
         }
     }
 }

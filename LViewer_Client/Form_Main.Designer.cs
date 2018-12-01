@@ -47,6 +47,7 @@
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
+            this.label1 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -64,7 +65,7 @@
             this.textBox_Status.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox_Status.Multiline = true;
             this.textBox_Status.Name = "textBox_Status";
-            this.textBox_Status.Size = new System.Drawing.Size(594, 251);
+            this.textBox_Status.Size = new System.Drawing.Size(594, 213);
             this.textBox_Status.TabIndex = 0;
             this.textBox_Status.TextChanged += new System.EventHandler(this.textBox_Status_TextChanged);
             // 
@@ -143,12 +144,12 @@
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Controls.Add(this.textBox_Status, 0, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(36, 53);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(36, 91);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(600, 255);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(600, 217);
             this.tableLayoutPanel1.TabIndex = 7;
             // 
             // tableLayoutPanel2
@@ -267,11 +268,21 @@
             this.tableLayoutPanel5.Size = new System.Drawing.Size(71, 49);
             this.tableLayoutPanel5.TabIndex = 13;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(36, 53);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(46, 17);
+            this.label1.TabIndex = 14;
+            this.label1.Text = "label1";
+            // 
             // Form_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1087, 494);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.tableLayoutPanel5);
             this.Controls.Add(this.tableLayoutPanel4);
             this.Controls.Add(this.tableLayoutPanel3);
@@ -319,5 +330,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
+        private System.Windows.Forms.Label label1;
     }
 }
