@@ -52,11 +52,11 @@
             this.label3 = new System.Windows.Forms.Label();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
+            this.listBox_Log = new System.Windows.Forms.ListBox();
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.listBox_Log = new System.Windows.Forms.ListBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -139,7 +139,7 @@
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(203, 26);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // aboutLViewerToolStripMenuItem
@@ -147,11 +147,12 @@
             this.aboutLViewerToolStripMenuItem.Name = "aboutLViewerToolStripMenuItem";
             this.aboutLViewerToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.aboutLViewerToolStripMenuItem.Text = "About LViewer";
+            this.aboutLViewerToolStripMenuItem.Click += new System.EventHandler(this.aboutLViewerToolStripMenuItem_Click);
             // 
             // checkForUpdatesToolStripMenuItem
             // 
             this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
-            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(203, 26);
             this.checkForUpdatesToolStripMenuItem.Text = "Check for updates";
             // 
             // pictureBox1
@@ -172,10 +173,10 @@
             this.button_Sender.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button_Sender.BackgroundImage")));
             this.button_Sender.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button_Sender.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_Sender.Location = new System.Drawing.Point(450, 2);
+            this.button_Sender.Location = new System.Drawing.Point(512, 2);
             this.button_Sender.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button_Sender.Name = "button_Sender";
-            this.button_Sender.Size = new System.Drawing.Size(63, 32);
+            this.button_Sender.Size = new System.Drawing.Size(58, 35);
             this.button_Sender.TabIndex = 7;
             this.button_Sender.UseVisualStyleBackColor = true;
             this.button_Sender.Click += new System.EventHandler(this.button_Sender_Click);
@@ -186,10 +187,10 @@
             this.textBox_Input.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.textBox_Input.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox_Input.Font = new System.Drawing.Font("Microsoft YaHei UI", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_Input.Location = new System.Drawing.Point(4, 3);
+            this.textBox_Input.Location = new System.Drawing.Point(3, 2);
             this.textBox_Input.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox_Input.Name = "textBox_Input";
-            this.textBox_Input.Size = new System.Drawing.Size(441, 30);
+            this.textBox_Input.Size = new System.Drawing.Size(503, 30);
             this.textBox_Input.TabIndex = 9;
             this.textBox_Input.TextChanged += new System.EventHandler(this.textBox_Input_TextChanged);
             // 
@@ -202,7 +203,7 @@
             this.label_IP.Location = new System.Drawing.Point(4, 0);
             this.label_IP.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_IP.Name = "label_IP";
-            this.label_IP.Size = new System.Drawing.Size(247, 34);
+            this.label_IP.Size = new System.Drawing.Size(184, 34);
             this.label_IP.TabIndex = 0;
             this.label_IP.Text = "label_IP";
             this.label_IP.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -318,6 +319,18 @@
             this.tableLayoutPanel6.Size = new System.Drawing.Size(278, 180);
             this.tableLayoutPanel6.TabIndex = 18;
             // 
+            // listBox_Log
+            // 
+            this.listBox_Log.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.listBox_Log.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listBox_Log.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listBox_Log.FormattingEnabled = true;
+            this.listBox_Log.ItemHeight = 16;
+            this.listBox_Log.Location = new System.Drawing.Point(3, 3);
+            this.listBox_Log.Name = "listBox_Log";
+            this.listBox_Log.Size = new System.Drawing.Size(272, 174);
+            this.listBox_Log.TabIndex = 0;
+            // 
             // tableLayoutPanel7
             // 
             this.tableLayoutPanel7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -333,7 +346,7 @@
             this.tableLayoutPanel7.Name = "tableLayoutPanel7";
             this.tableLayoutPanel7.RowCount = 1;
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 39F));
             this.tableLayoutPanel7.Size = new System.Drawing.Size(573, 39);
             this.tableLayoutPanel7.TabIndex = 19;
             // 
@@ -375,18 +388,6 @@
             this.label2.TabIndex = 1;
             this.label2.Text = "PORT";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // listBox_Log
-            // 
-            this.listBox_Log.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.listBox_Log.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listBox_Log.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.listBox_Log.FormattingEnabled = true;
-            this.listBox_Log.ItemHeight = 16;
-            this.listBox_Log.Location = new System.Drawing.Point(3, 3);
-            this.listBox_Log.Name = "listBox_Log";
-            this.listBox_Log.Size = new System.Drawing.Size(272, 174);
-            this.listBox_Log.TabIndex = 0;
             // 
             // Form_Main
             // 

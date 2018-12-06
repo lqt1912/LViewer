@@ -254,5 +254,11 @@ namespace LViewer
         {
             button_Sender.BackgroundImageLayout = ImageLayout.Stretch;
         }
+
+        private void aboutLViewerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            About myab = new About();
+            myab.Show();
+        }
     }
 }
