@@ -21,7 +21,7 @@ namespace LViewer
         Hashtable hshClients = new Hashtable(); //HashTable hiển thị danh sách user.
         TcpListener listener;
         Thread thread;
-
+        string hostName;
         public Form_Main()
         {
             InitializeComponent();
@@ -39,7 +39,7 @@ namespace LViewer
                 {
                     UserConnection user = new UserConnection(listener.AcceptTcpClient());
                     user.ReiceivedMess += new dlgReceiveMess(OnLineReiceive);
-                    UpdateStatus("Mot nguoi dang ket noi. Xin doi trong vai giay.");
+                    UpdateStatus1("Một người đang kết nối. Vui lòng đợi...");
                 }
                 while (true);
             }
@@ -52,7 +52,13 @@ namespace LViewer
         {
             thread = new Thread(new ThreadStart(DoListen));
             thread.Start();
-            UpdateStatus("Sang sang ket noi");
+            UpdateStatus1("Sẵn sàng kết nối");
+            hostName = Dns.GetHostName(); // Retrive the Name of HOST  
+         
+            //string myIP = Dns.GetHostEntry(hostName).AddressList[0].ToString();
+            
+            label_IP.Text = hostName;
+            label_Port.Text = PORT_NUMBER.ToString() ;
         }
 
         private void pictureBox2_Click(object sender, EventArgs e)
@@ -132,7 +138,6 @@ namespace LViewer
                 userList += client.Username;
             }
             ReplyToSender(userList, user);
-
         }
 
         private void SendChatMesage(string message, UserConnection user)
@@ -145,7 +150,7 @@ namespace LViewer
         {
             if (textBox_Input.Text != "")
             {
-                UpdateStatus("Server: " + textBox_Input.Text);
+                UpdateStatus(hostName+":"  + textBox_Input.Text);
 
                 Send("BROAD|" + textBox_Input.Text);
                 textBox_Input.Text = string.Empty;
@@ -166,7 +171,10 @@ namespace LViewer
                 hshClients.Add(userName, user);
                 ReplyToSender("JOIN", user);
                 SendToAllClients("CHAT|" + "Waiting..." + user.Username + " vua dang nhap.", user);
-
+                UpdateStatus1(userName + " vừa đăng nhập");
+                UpdateStatus1("Bạn đang chat với " + userName);
+                label3.Text = userName;
+               
             }
         }
 
@@ -181,6 +189,11 @@ namespace LViewer
         private void UpdateStatus(string mes)
         {
             listBox_Status.Items.Add(mes);
+        }
+        private void UpdateStatus1(string mes)
+        {
+            listBox_Log.Items.Add(mes);
+            listBox_Log.IsAccessible = false;
         }
         private void textBox_Input_TextChanged(object sender, EventArgs e)
         {
@@ -225,6 +238,21 @@ namespace LViewer
         private void listBox_Status_SizeChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void label1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_Sender_Paint(object sender, PaintEventArgs e)
+        {
+            button_Sender.BackgroundImageLayout = ImageLayout.Stretch;
         }
     }
 }

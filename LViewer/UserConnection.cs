@@ -36,7 +36,9 @@ namespace LViewer
                 streamwriter.Write(strData + (char)13 + (char)10);
                 //Chắc chắn dử liệu đã gửi khi nhận xong.
                 streamwriter.Flush();
+                
             }
+
         }
 
         //Callback TcpClient.GetStream (Bắt đầu một Asynchronous mới).

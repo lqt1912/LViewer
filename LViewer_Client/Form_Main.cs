@@ -90,9 +90,12 @@ namespace LViewer_Client
         }
 
         //hiển thị text ra màn hình.
+
         private void DisplayText(string texttodisplay)
         {
+
             textBox_Status.AppendText(texttodisplay);
+
         }
 
         //Gửi dử liệu  
@@ -346,20 +349,23 @@ namespace LViewer_Client
                 listBox_Online.Items.Add(listOfUser[i]);
             }
         }
-    
+        string hostName;
         //Xử lý đăng nhập
         public void AttemptLogin()
         {
-            Form_Login myfrmLogin = new Form_Login();
-            myfrmLogin.StartPosition = FormStartPosition.CenterParent;
-            myfrmLogin.ShowDialog(this);
-            SendData("CONNECT|" + myfrmLogin.textBox_Input.Text);
+            /*   Form_Login myfrmLogin = new Form_Login();
+               myfrmLogin.StartPosition = FormStartPosition.CenterParent;
+               myfrmLogin.ShowDialog(this);
 
-            Username = myfrmLogin.textBox_Input.Text;
-            label_Username.Text = Username;
 
-            myfrmLogin.Dispose();
+               SendData("CONNECT|" + myfrmLogin.textBox_Input.Text);
+               myfrmLogin.Dispose();
+               Username = myfrmLogin.textBox_Input.Text;
+               label_Username.Text = Username;*/
 
+            Username = Dns.GetHostName()+" ";
+            SendData("CONNECT|" + Username);
+            label_UsernameFixed.Text = Username;
         }
     }
 }
