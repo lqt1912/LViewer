@@ -260,5 +260,10 @@ namespace LViewer
             About myab = new About();
             myab.Show();
         }
+
+        private void Form_Main_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            listener.Stop();
+        }
     }
 }

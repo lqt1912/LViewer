@@ -27,16 +27,16 @@ namespace LViewer_Client
         byte[] readBuffer = new byte[MAX_BUFFER_SIZE];
         string myString = "noname";
         private int p, q, n, e, d, phi_n;
-
+        string myIP = "127.0.0.1";
         //Khi MainForm load, trình biên dịch sẽ tạo một Form Login mới yêu cầu kết nối tới sever và đăng nhập.
         private void Form_Main_Load(object sender, EventArgs e)
         {
 
             Form_Login myfrmLogin = new Form_Login();
-            try
+            /*try
             {
                 //Tạo client mới. 
-                client = new TcpClient("127.0.0.1", PORT_NUMBER);
+                client = new TcpClient(myIP, PORT_NUMBER);
                 //Sử dụng Async và Invoking để đọc nhằm tránh lag. 
                 client.GetStream().BeginRead(readBuffer, 0, MAX_BUFFER_SIZE, new AsyncCallback(DoRead), null);
 
@@ -49,7 +49,7 @@ namespace LViewer_Client
             {
                 MessageBox.Show("Unable to connect to sever. Login again", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 this.Dispose();
-            }
+            }*/
         }
 
         //Callback Tcpclient.getstream()
@@ -130,7 +130,8 @@ namespace LViewer_Client
             {
                 case "JOIN":
                     // Server acknowledged login.
-                    DisplayText("Bạn đã đăng nhập thành công. Hãy sẵn sàng cho những cuộc trò chuyện chứ?" + (char)13 + (char)10);
+                    // DisplayText("Bạn đã đăng nhập thành công. Hãy sẵn sàng cho những cuộc trò chuyện chứ?" + (char)13 + (char)10);
+                    listBox1.Items.Add("Bạn đã đăng nhập thành công với " + myIP);
                     break;
                 case "CHAT":
                     // Received chat message, display it.
@@ -316,6 +317,33 @@ namespace LViewer_Client
         {
             Random rd = new Random();
             return rd.Next(11, 101);
+        }
+
+        private void button_Send_Paint(object sender, PaintEventArgs e)
+        {
+            button_Send.BackgroundImageLayout = ImageLayout.Stretch;
+        }
+
+        private void button_Connect_Click(object sender, EventArgs e)
+        {
+            myIP = textBox_IP.Text;
+            try
+            {
+                //Tạo client mới. 
+                client = new TcpClient(myIP, PORT_NUMBER);
+                //Sử dụng Async và Invoking để đọc nhằm tránh lag. 
+                client.GetStream().BeginRead(readBuffer, 0, MAX_BUFFER_SIZE, new AsyncCallback(DoRead), null);
+
+                //Chắc chắn form đã mở.
+                this.Show();
+                AttemptLogin();
+                textBox_Status.ReadOnly = true;
+            }
+            catch
+            {
+                MessageBox.Show("Unable to connect to sever. Login again", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                this.Dispose();
+            }
         }
 
         //Hàm kiểm tra nguyên tố

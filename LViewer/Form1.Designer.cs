@@ -145,7 +145,7 @@
             // aboutLViewerToolStripMenuItem
             // 
             this.aboutLViewerToolStripMenuItem.Name = "aboutLViewerToolStripMenuItem";
-            this.aboutLViewerToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.aboutLViewerToolStripMenuItem.Size = new System.Drawing.Size(203, 26);
             this.aboutLViewerToolStripMenuItem.Text = "About LViewer";
             this.aboutLViewerToolStripMenuItem.Click += new System.EventHandler(this.aboutLViewerToolStripMenuItem_Click);
             // 
@@ -410,6 +410,7 @@
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Form_Main";
             this.Text = "LViewer";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form_Main_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
