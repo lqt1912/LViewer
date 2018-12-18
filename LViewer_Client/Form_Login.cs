@@ -12,21 +12,18 @@ namespace LViewer_Client
 {
     public partial class Form_Login : Form
     {
-  
         public Form_Login()
         {
             InitializeComponent();
-         
         }
 
-        private void button_Login_Click(object sender, EventArgs e)
+        private void Form_Login_KeyDown(object sender, KeyEventArgs e)
         {
-           
-        }
-
-        private void textBox_Input_TextChanged(object sender, EventArgs e)
-        {
-            
+            if (e.KeyCode == Keys.Enter)
+            {
+                button_Login.PerformClick();
+                this.Dispose();
+            }
         }
     }
 }

@@ -23,300 +23,166 @@ namespace LViewer_Client
         const int MAX_BUFFER_SIZE = 255;
         const int PORT_NUMBER = 9998;
         TcpClient client;
-        public string Username;
+        public string user;
         byte[] readBuffer = new byte[MAX_BUFFER_SIZE];
-        string myString = "noname";
-        private int p, q, n, e, d, phi_n;
+        string str = " .  ";
         string myIP = "127.0.0.1";
-        //Khi MainForm load, trình biên dịch sẽ tạo một Form Login mới yêu cầu kết nối tới sever và đăng nhập.
+       
+        //
+        //đánh dấu mất kết nối
+        //
+
+        void mark_as_disconected()
+        {
+            textBox_Input.ReadOnly = true;
+            button_Send.Enabled = false;
+        }
+
+        //
+        //gửi lệnh (lệnh  = command + tin nhắn(nêu có))
+        //
+
+        void send_command(string Data)
+        {
+            StreamWriter writer = new StreamWriter(client.GetStream());
+            writer.Write(Data + (char)13);
+            writer.Flush();
+
+        }
+
+        //
+        //xử lý đăng nhập 
+        //
+
+        void login_process()
+        {
+            Form_Login frmLogin = new Form_Login();
+            frmLogin.StartPosition = FormStartPosition.CenterParent;
+            frmLogin.ShowDialog(this);
+            send_command("connect|" + frmLogin.textBox_UserFormLogin.Text);
+            frmLogin.Dispose();
+            user = frmLogin.textBox_UserFormLogin.Text;
+            label_UsernameFixed.Text = user; 
+        }
+
+        //
+        //update tin nhắn, thông điệp lên listbox
+        //
+
+        void update_content_board(string text)
+        {
+           // CheckForIllegalCrossThreadCalls = false;
+            textBox_Status.AppendText(text);
+        }
+
+        void update_content_board1(string text)
+        {
+            // CheckForIllegalCrossThreadCalls = false;
+            listBox1.Items.Add(text);
+        }
+
         private void Form_Main_Load(object sender, EventArgs e)
         {
-
-            Form_Login myfrmLogin = new Form_Login();
-            /*try
-            {
-                //Tạo client mới. 
-                client = new TcpClient(myIP, PORT_NUMBER);
-                //Sử dụng Async và Invoking để đọc nhằm tránh lag. 
-                client.GetStream().BeginRead(readBuffer, 0, MAX_BUFFER_SIZE, new AsyncCallback(DoRead), null);
-
-                //Chắc chắn form đã mở.
-                this.Show();
-                AttemptLogin();
-                textBox_Status.ReadOnly = true;
-            }
-            catch
-            {
-                MessageBox.Show("Unable to connect to sever. Login again", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                this.Dispose();
-            }*/
-        }
-
-        //Callback Tcpclient.getstream()
-        private void DoRead(IAsyncResult iar)
-        {
-            int BytesRead;
-            string strMes;
-
+            Form_Login frmLogin = new Form_Login();
             try
             {
-                //Kết thúc Async, trả về số Bytes đã đọc (read) trong BytesRead
+                client = new TcpClient("localhost", PORT_NUMBER);
+                client.GetStream().BeginRead(readBuffer, 0, MAX_BUFFER_SIZE, new AsyncCallback(read), null);
+                this.Show();
+                login_process();
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unable to connect to sever! ", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                this.Dispose();
+            }
+        } 
+
+        //
+        //Xử lý online list 
+        //
+        void online_user_list(string[] users)
+        {
+            for( int i=1; i<users.Length; i++)
+            {
+                listBox_Online.Items.Add(users[i]);
+            }
+        }
+
+        void process_command_received(string strMessage)
+        {
+            string[] dataArray;
+            dataArray = strMessage.Split((char)124);
+
+            switch(dataArray[0])
+            {
+                case "join":
+                    update_content_board1("bạn đã đăng nhập thành công!  "+(char)13 + (char)10 );
+                    break;
+                case "chat":
+                    if (dataArray[1].Substring(0, 10) == "Waiting...")
+                        update_content_board(dataArray[1] + (char)13 + (char)10);
+                    else
+                    {
+                        string data = dataArray[1];
+                        string subStringYes = data.Substring(data.Length - user.Length, user.Length);
+                        string subStringNo = data.Substring(data.Length - " .  ".Length, " .  ".Length);
+                        if (subStringYes == user)
+                            update_content_board(((data.Substring(0, data.Length - user.Length)) + (char)13 + (char)10));
+                        else if (subStringNo == " .  ")
+                            update_content_board((data.Substring(0,data.Length -" .  ".Length) )+ (char)13 + (char)10);
+                    }
+                    break;
+                case "refuse":
+                    login_process();
+                    break;
+                case "listusers":
+                    online_user_list(dataArray);
+                    break;
+                case "broad":
+                    update_content_board("SERVER: " + dataArray[1] + (char)13 + (char)10);
+                    break;
+            }
+            
+        }
+
+        //
+        //hàm lắng nghe từ phía sever
+        //
+
+        void read(IAsyncResult iar)
+        {
+            int BytesRead;
+            string strMessage;
+            try
+            {
                 BytesRead = client.GetStream().EndRead(iar);
-                if (BytesRead < 1)
+                if(BytesRead <1)
                 {
-                    //nếu không có byte nào được đọc, đóng cửa sổ
-                    MarkAsDisconnected(); //Đánh dấu ngắt kết nối.
+                    mark_as_disconected();
                     return;
                 }
-                //chuyển định dạng
-                strMes = Encoding.UTF8.GetString(readBuffer, 0, BytesRead - 2);
-                ProcessCommandsSignal(strMes);
-                //Khởi động tiến trình mới 
-                client.GetStream().BeginRead(readBuffer, 0, MAX_BUFFER_SIZE, new AsyncCallback(DoRead), null);
 
+
+                strMessage = Encoding.UTF8.GetString(readBuffer, 0, BytesRead - 2);
+                process_command_received(strMessage);
+                client.GetStream().BeginRead(readBuffer, 0, MAX_BUFFER_SIZE, new AsyncCallback(read), null);
             }
-            catch
+            catch(Exception ex)
             {
-                MarkAsDisconnected();
+                mark_as_disconected();
             }
-        }
-
-        //Khi sever bị ngắt kết nối, ngăn chặn các tin nhắn được gửi đến và đi. 
-        private void MarkAsDisconnected()
-        {
-            CheckForIllegalCrossThreadCalls = false;
-            textBox_Input.ReadOnly = true;  //thuộc tính Readonly cấm nhập vào.
-            button_Send.Enabled = false;    //Thuộc tính ẩn đi button.
-        }
-
-        //hiển thị text ra màn hình.
-
-        private void DisplayText(string texttodisplay)
-        {
-
-            textBox_Status.AppendText(texttodisplay);
-
-        }
-
-        //Gửi dử liệu  
-        private void SendData(string data)
-        {
-            StreamWriter streamWriter = new StreamWriter(client.GetStream());
-           
-            streamWriter.Write(data + (char)13);
-            streamWriter.Flush();
         }
 
         private void button_Send_Click(object sender, EventArgs e)
         {
-            if (textBox_Input.Text != "")
+            if(textBox_Input.Text!= "")
             {
-                byte[] readString = Encoding.UTF8.GetBytes(textBox_Input.Text);
-
-                DisplayText(Username + ":" + textBox_Input.Text + (char)13 + (char)10);
-                // SendData("CHAT|" + Ecrypt(textBox_Input.Text) );
-
-                SendData("CHAT|" + (textBox_Input.Text));
-                // SendData("CHAT|" + readString.ToString());
+                update_content_board(user + ": " + textBox_Input.Text + (char)13 + (char)10);
+                send_command("chat|" +(textBox_Input.Text) +str);
                 textBox_Input.Text = string.Empty;
             }
-        }
-
-        private void ProcessCommandsSignal(string signal)
-        {
-            string[] dataArray;
-            dataArray = signal.Split('|');
-            switch (dataArray[0])
-            {
-                case "JOIN":
-                    // Server acknowledged login.
-                    // DisplayText("Bạn đã đăng nhập thành công. Hãy sẵn sàng cho những cuộc trò chuyện chứ?" + (char)13 + (char)10);
-                    listBox1.Items.Add("Bạn đã đăng nhập thành công với " + myIP);
-                    break;
-                case "CHAT":
-                    // Received chat message, display it.
-                    if (dataArray[1].Substring(0, 10) == "Waiting...")
-                        DisplayText(dataArray[1] + (char)13 + (char)10);
-                    else
-                    {
-                        string data = dataArray[1];
-                        string subStringYes = data.Substring(data.Length - Username.Length, Username.Length);
-                        string subStringNo = data.Substring(data.Length - "noname".Length, "noname".Length);
-                        if (subStringYes == Username)
-                            DisplayText(getString(data.Substring(0, data.Length - Username.Length)) + (char)13 + (char)10);
-                        else if (subStringNo == "noname")
-                            DisplayText(getString(data.Substring(0, data.Length - "noname".Length)) + (char)13 + (char)10);
-                    }
-                    break;
-                case "REFUSE":
-                    // Server refused login with this user name, try to log in with another.
-                    AttemptLogin();
-                    break;
-                case "LISTUSERS":
-                    // Server sent a list of users.
-                    ListUsers(dataArray);
-                    break;
-                case "BROAD":
-                    // Server sent a broadcast message
-                    DisplayText("Máy chủ: " + dataArray[1] + (char)13 + (char)10);
-                    break;
-            }
-        }
-        //Region bên dưới sử dụng RSA mã hóa dữ liệu
-
-        #region Su_dung_RSA_de_ma_hoa_du_lieu
-        private string getString(string str)
-        {
-            int bre = 0;
-            string s1 = null;
-            string s2 = null;
-            string s = null;
-            char[] getChar = new char[str.Length];
-            getChar = str.ToCharArray();
-            for (int i = 0; i < str.Length; i++)
-            {
-                if (getChar[i] == ':')
-                {
-                    bre = i + 1;
-                    break;
-                }
-            }
-            for (int k = 0; k < bre; k++)
-            {
-                s1 += getChar[k].ToString();
-            }
-            for (int j = bre; j < str.Length; j++)
-            {
-                s2 += getChar[j].ToString();
-            }
-            s2 = Decipher(s2);
-            s = s1 + " " + s2;
-            return s;
-        }
-
-        //Hàm Decipher copy trên mạng 
-        private string Decipher(string str)
-        {
-            //str = getString(str);
-            string rtbChuoiKiTu = str.Trim() + " ";
-            int chieuDaiChuoi = rtbChuoiKiTu.Length;
-            char[] rtbMangKiTu;
-            rtbMangKiTu = new char[chieuDaiChuoi];
-            int[] rtbMangSo;
-            rtbMangSo = new int[chieuDaiChuoi];
-            rtbMangKiTu = rtbChuoiKiTu.ToCharArray();
-            string s = "";
-            int count = 0;
-            int i = 0;
-            for (i = 0; i < chieuDaiChuoi; i++)
-            {
-                if (rtbMangKiTu[i] != ' ')
-                {
-                    s += rtbMangKiTu[i];
-                }
-                else
-                {
-                    rtbMangSo[count] = int.Parse(s);
-                    count++;
-                    s = "";
-                }
-            }
-            char[] rtbMang;
-            rtbMang = new char[chieuDaiChuoi];
-            int dd = rtbMangSo[0];
-            int ee = rtbMangSo[1];
-            int nn = rtbMangSo[2];
-            for (i = 3; i < count; i++)
-            {
-                rtbMangSo[i] = (rtbMangSo[i] ^ dd) % nn;
-                rtbMangSo[i] = (rtbMangSo[i] ^ ee) % nn;
-                rtbMangSo[i] = (rtbMangSo[i] ^ dd) % nn;
-                rtbMang[i] = (char)rtbMangSo[i];
-                s += rtbMang[i];
-            }
-            return s;
-        }
-
-        private string Ecrypt(string str)
-        {
-            taoKhoa();
-            int len = str.Length;
-            char[] mangKiTu = new char[len];
-            mangKiTu = str.ToCharArray();
-            int[] mangAscii = new int[len];
-            for (int i = 0; i < len; i++)
-                mangAscii[i] = (int)mangKiTu[i];
-            for (int i = 0; i < len; i++)
-
-                mangAscii[i] = (mangAscii[i] ^ e) % n;			//Mã hóa từng kí tự trong chuỗi
-
-            string str1 = "";					// Gán vào một chuỗi số khác
-            for (int i = 0; i < len; i++)
-                str1 += (mangAscii[i] + " ");
-            return d.ToString() + " " + e.ToString() + " " + n.ToString() + " " + str1;
-        }
-
-        private void taoKhoa()
-        {
-            //Tạo hai số nguyên tố ngẫu nhine6 khác nhau
-            do
-            {
-                p = soNgauNhien();
-                q = soNgauNhien();
-            }
-            while (p == q || !kiemTraNguyenTo(p) || !kiemTraNguyenTo(q));
-
-            //Tinh n=p*q
-            n = p * q;
-
-            //Tính Phi(n)=(p-1)*(q-1)
-            phi_n = (p - 1) * (q - 1);
-
-            //Tính e là một số ngẫu nhiên có giá trị 0< e <phi(n) và là số nguyên tố cùng nhau với Phi(n)
-            do
-            {
-                Random rd = new Random();
-                e = rd.Next(2, phi_n);
-            }
-            while (!nguyenToCungNhau(e, phi_n));
-
-            //Tính d
-            d = 0;
-            int i = 2;
-            while (((1 + i * phi_n) % e) != 0 || d <= 0)
-            {
-                i++;
-                d = (1 + i * phi_n) / e;
-            }
-        }
-
-        private void button_UpdateList_Click(object sender, EventArgs e)
-        {
-            listBox_Online.Items.Clear();
-            SendData("REQUESTUSERS");
-        }
-
-        private void button_PublicChat_Click(object sender, EventArgs e)
-        {
-            myString = "noname";
-
-        }
-
-        private void textBox_Status_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void listBox_Online_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        //Hàm tạo số ngẫu nhiên từ 2->10000
-        private int soNgauNhien()
-        {
-            Random rd = new Random();
-            return rd.Next(11, 101);
         }
 
         private void button_Send_Paint(object sender, PaintEventArgs e)
@@ -324,76 +190,28 @@ namespace LViewer_Client
             button_Send.BackgroundImageLayout = ImageLayout.Stretch;
         }
 
-        private void button_Connect_Click(object sender, EventArgs e)
+        private void listBox_Online_SelectedIndexChanged(object sender, EventArgs e)
         {
-            myIP = textBox_IP.Text;
-            try
-            {
-                //Tạo client mới. 
-                client = new TcpClient(myIP, PORT_NUMBER);
-                //Sử dụng Async và Invoking để đọc nhằm tránh lag. 
-                client.GetStream().BeginRead(readBuffer, 0, MAX_BUFFER_SIZE, new AsyncCallback(DoRead), null);
-
-                //Chắc chắn form đã mở.
-                this.Show();
-                AttemptLogin();
-                textBox_Status.ReadOnly = true;
-            }
-            catch
-            {
-                MessageBox.Show("Unable to connect to sever. Login again", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                this.Dispose();
-            }
+            str = listBox_Online.Text;
+            label_Private.Text ="Bạn đang chat private với: " + str;
         }
 
-        //Hàm kiểm tra nguyên tố
-        private bool kiemTraNguyenTo(int i)
+        private void Form_Main_FormClosing(object sender, FormClosingEventArgs e)
         {
-            bool kiemtra = true;
-            for (int j = 2; j < i; j++)
-                if (i % j == 0)
-                    kiemtra = false;
-            return kiemtra;
+            if (button_Send.Enabled == true)
+                send_command("disconnect");
         }
 
-        //Hàm kiểm tra hai số nguyên tố cùng nhau
-        private bool nguyenToCungNhau(int a, int b)
+        private void button_Update_Click(object sender, EventArgs e)
         {
-            bool kiemtra = true;
-            for (int i = 2; i < a; i++)
-                if (a % i == 0 && b % i == 0)
-                    kiemtra = false;
-            return kiemtra;
+            listBox_Online.Items.Clear();
+            send_command("requestusers");
         }
-        #endregion
 
-        //Add các user online vào listBox_Online
-        private void ListUsers(string[] listOfUser)
-
+        private void button_PublicChat_Click(object sender, EventArgs e)
         {
-
-            for (int i = 0; i < listOfUser.Length - 1; i++)
-            {
-                listBox_Online.Items.Add(listOfUser[i]);
-            }
-        }
-        string hostName;
-        //Xử lý đăng nhập
-        public void AttemptLogin()
-        {
-            /*   Form_Login myfrmLogin = new Form_Login();
-               myfrmLogin.StartPosition = FormStartPosition.CenterParent;
-               myfrmLogin.ShowDialog(this);
-
-
-               SendData("CONNECT|" + myfrmLogin.textBox_Input.Text);
-               myfrmLogin.Dispose();
-               Username = myfrmLogin.textBox_Input.Text;
-               label_Username.Text = Username;*/
-
-            Username = Dns.GetHostName()+" ";
-            SendData("CONNECT|" + Username);
-            label_UsernameFixed.Text = Username;
+            str = " .  ";
+            label_Private.Text = "Bạn đang chat public! ";
         }
     }
 }
