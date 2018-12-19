@@ -176,6 +176,7 @@
             this.textBox_Input.Name = "textBox_Input";
             this.textBox_Input.Size = new System.Drawing.Size(425, 26);
             this.textBox_Input.TabIndex = 9;
+            this.textBox_Input.Text = "enter your message";
             this.textBox_Input.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox_Input_KeyDown);
             // 
             // label_IP
