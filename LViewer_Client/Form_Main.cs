@@ -59,9 +59,11 @@ namespace LViewer_Client
             Form_Login frmLogin = new Form_Login();
             frmLogin.StartPosition = FormStartPosition.CenterParent;
             frmLogin.ShowDialog(this);
-            send_command("connect|" + frmLogin.textBox_UserFormLogin.Text);
+            //send_command("connect|" + frmLogin.textBox_UserFormLogin.Text);
+            send_command("connect|" + frmLogin.labelName);
             frmLogin.Dispose();
             user = frmLogin.textBox_UserFormLogin.Text;
+            user = frmLogin.labelName;
             label_UsernameFixed.Text = user; 
         }
 
@@ -90,6 +92,7 @@ namespace LViewer_Client
                 client.GetStream().BeginRead(readBuffer, 0, MAX_BUFFER_SIZE, new AsyncCallback(read), null);
                 this.Show();
                 login_process();
+                textBox_Input.Focus();
             }
 
             catch (Exception ex)
@@ -212,6 +215,60 @@ namespace LViewer_Client
         {
             str = " .  ";
             label_Private.Text = "Bạn đang chat public! ";
+        }
+
+        private void label_Private_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tableLayoutPanel5_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void textBox_Input_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void changeBackgroundColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            colorDialog1.ShowDialog();
+            textBox_Status.BackColor = colorDialog1.Color;
+        }
+
+        private void changeFontColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fontDialog1.ShowDialog();
+            textBox_Status.Font = fontDialog1.Font;
+
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void Form_Main_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+            {
+                button_Send.PerformClick();
+            }
+        }
+
+        private void textBox_Input_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                button_Send.PerformClick();
+            }
         }
     }
 }

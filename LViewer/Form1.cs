@@ -25,6 +25,7 @@ namespace LViewer
         public Form_Main()
         {
             InitializeComponent();
+           
         }
 
         //
@@ -218,7 +219,10 @@ namespace LViewer
             listenerthread.Start();
             update_content_board1("Sẵn sàng kết nối. ");
             label_IP.Text = System.Net.Dns.GetHostName();
-            label_Port.Text = PORT_NUMBER.ToString(); ;
+            label_Port.Text = PORT_NUMBER.ToString();
+            textBox_Input.Focus();
+            
+
         }
 
         private void button_Sender_Paint(object sender, PaintEventArgs e)
@@ -235,6 +239,31 @@ namespace LViewer
         private void Form_Main_FormClosed(object sender, FormClosedEventArgs e)
         {
             listener.Stop();
+        }
+
+        private void connectionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void yourProfileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            colorDialog1.ShowDialog();
+            listBox_Status.BackColor = colorDialog1.Color;
+        }
+
+        private void inviteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fontDialog1.ShowDialog();
+            listBox_Status.Font = fontDialog1.Font;
+        }
+
+        private void textBox_Input_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+            {
+                button_Sender.PerformClick();
+            }
         }
     }
 }

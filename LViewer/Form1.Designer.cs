@@ -34,8 +34,6 @@
             this.yourProfileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.inviteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createGroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.extrasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutLViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,6 +53,8 @@
             this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.fontDialog1 = new System.Windows.Forms.FontDialog();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -72,7 +72,6 @@
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.connectionToolStripMenuItem,
-            this.extrasToolStripMenuItem,
             this.aboutToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -88,40 +87,29 @@
             this.inviteToolStripMenuItem,
             this.createGroupToolStripMenuItem});
             this.connectionToolStripMenuItem.Name = "connectionToolStripMenuItem";
-            this.connectionToolStripMenuItem.Size = new System.Drawing.Size(81, 20);
-            this.connectionToolStripMenuItem.Text = "Connection";
+            this.connectionToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.connectionToolStripMenuItem.Text = "File";
+            this.connectionToolStripMenuItem.Click += new System.EventHandler(this.connectionToolStripMenuItem_Click);
             // 
             // yourProfileToolStripMenuItem
             // 
             this.yourProfileToolStripMenuItem.Name = "yourProfileToolStripMenuItem";
-            this.yourProfileToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
-            this.yourProfileToolStripMenuItem.Text = "Your profile";
+            this.yourProfileToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.yourProfileToolStripMenuItem.Text = "Change Backgound Color";
+            this.yourProfileToolStripMenuItem.Click += new System.EventHandler(this.yourProfileToolStripMenuItem_Click);
             // 
             // inviteToolStripMenuItem
             // 
             this.inviteToolStripMenuItem.Name = "inviteToolStripMenuItem";
-            this.inviteToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
-            this.inviteToolStripMenuItem.Text = "Invite";
+            this.inviteToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.inviteToolStripMenuItem.Text = "Change Font";
+            this.inviteToolStripMenuItem.Click += new System.EventHandler(this.inviteToolStripMenuItem_Click);
             // 
             // createGroupToolStripMenuItem
             // 
             this.createGroupToolStripMenuItem.Name = "createGroupToolStripMenuItem";
-            this.createGroupToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
-            this.createGroupToolStripMenuItem.Text = "Create Group";
-            // 
-            // extrasToolStripMenuItem
-            // 
-            this.extrasToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.optionsToolStripMenuItem});
-            this.extrasToolStripMenuItem.Name = "extrasToolStripMenuItem";
-            this.extrasToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
-            this.extrasToolStripMenuItem.Text = "Extras";
-            // 
-            // optionsToolStripMenuItem
-            // 
-            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
-            this.optionsToolStripMenuItem.Text = "Options";
+            this.createGroupToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.createGroupToolStripMenuItem.Text = "Exit";
             // 
             // aboutToolStripMenuItem
             // 
@@ -169,7 +157,7 @@
             this.button_Sender.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button_Sender.BackgroundImage")));
             this.button_Sender.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button_Sender.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_Sender.Location = new System.Drawing.Point(384, 2);
+            this.button_Sender.Location = new System.Drawing.Point(431, 2);
             this.button_Sender.Margin = new System.Windows.Forms.Padding(2);
             this.button_Sender.Name = "button_Sender";
             this.button_Sender.Size = new System.Drawing.Size(44, 28);
@@ -186,8 +174,9 @@
             this.textBox_Input.Location = new System.Drawing.Point(2, 2);
             this.textBox_Input.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_Input.Name = "textBox_Input";
-            this.textBox_Input.Size = new System.Drawing.Size(378, 26);
+            this.textBox_Input.Size = new System.Drawing.Size(425, 26);
             this.textBox_Input.TabIndex = 9;
+            this.textBox_Input.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox_Input_KeyDown);
             // 
             // label_IP
             // 
@@ -209,7 +198,7 @@
             this.listBox_Status.Location = new System.Drawing.Point(2, 2);
             this.listBox_Status.Margin = new System.Windows.Forms.Padding(2);
             this.listBox_Status.Name = "listBox_Status";
-            this.listBox_Status.Size = new System.Drawing.Size(428, 283);
+            this.listBox_Status.Size = new System.Drawing.Size(477, 325);
             this.listBox_Status.TabIndex = 10;
             // 
             // tableLayoutPanel1
@@ -225,7 +214,7 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(432, 287);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(481, 329);
             this.tableLayoutPanel1.TabIndex = 11;
             // 
             // tableLayoutPanel3
@@ -274,7 +263,7 @@
             this.tableLayoutPanel6.Name = "tableLayoutPanel6";
             this.tableLayoutPanel6.RowCount = 1;
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(208, 146);
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(208, 188);
             this.tableLayoutPanel6.TabIndex = 18;
             // 
             // listBox_Log
@@ -286,7 +275,7 @@
             this.listBox_Log.Location = new System.Drawing.Point(2, 2);
             this.listBox_Log.Margin = new System.Windows.Forms.Padding(2);
             this.listBox_Log.Name = "listBox_Log";
-            this.listBox_Log.Size = new System.Drawing.Size(204, 142);
+            this.listBox_Log.Size = new System.Drawing.Size(204, 184);
             this.listBox_Log.TabIndex = 0;
             // 
             // tableLayoutPanel7
@@ -299,12 +288,12 @@
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 77F));
             this.tableLayoutPanel7.Controls.Add(this.button_Sender, 1, 0);
             this.tableLayoutPanel7.Controls.Add(this.textBox_Input, 0, 0);
-            this.tableLayoutPanel7.Location = new System.Drawing.Point(243, 332);
+            this.tableLayoutPanel7.Location = new System.Drawing.Point(241, 375);
             this.tableLayoutPanel7.Name = "tableLayoutPanel7";
             this.tableLayoutPanel7.RowCount = 1;
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
-            this.tableLayoutPanel7.Size = new System.Drawing.Size(430, 32);
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(477, 32);
             this.tableLayoutPanel7.TabIndex = 19;
             // 
             // tableLayoutPanel8
@@ -395,8 +384,6 @@
         private System.Windows.Forms.ToolStripMenuItem yourProfileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem inviteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem createGroupToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem extrasToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutLViewerToolStripMenuItem;
@@ -416,6 +403,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ListBox listBox_Log;
+        private System.Windows.Forms.ColorDialog colorDialog1;
+        private System.Windows.Forms.FontDialog fontDialog1;
     }
 }
 

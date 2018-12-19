@@ -16,14 +16,21 @@ namespace LViewer_Client
         {
             InitializeComponent();
         }
-
+        public string labelName= "";
         private void Form_Login_KeyDown(object sender, KeyEventArgs e)
         {
+
             if (e.KeyCode == Keys.Enter)
             {
                 button_Login.PerformClick();
-                this.Dispose();
             }
+
+        }
+
+        private void button_Login_Click(object sender, EventArgs e)
+        {
+            labelName = textBox_UserFormLogin.Text;
+            this.Dispose();
         }
     }
 }
