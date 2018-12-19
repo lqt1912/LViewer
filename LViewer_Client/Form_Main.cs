@@ -44,9 +44,12 @@ namespace LViewer_Client
 
         void send_command(string Data)
         {
-            StreamWriter writer = new StreamWriter(client.GetStream());
-            writer.Write(Data + (char)13);
-            writer.Flush();
+            lock (client.GetStream())
+            {
+                StreamWriter writer = new StreamWriter(client.GetStream());
+                writer.Write(Data + (char)13);
+                writer.Flush();
+            }
 
         }
 
@@ -166,10 +169,9 @@ namespace LViewer_Client
                     mark_as_disconected();
                     return;
                 }
-
-
                 strMessage = Encoding.UTF8.GetString(readBuffer, 0, BytesRead - 2);
                 process_command_received(strMessage);
+
                 client.GetStream().BeginRead(readBuffer, 0, MAX_BUFFER_SIZE, new AsyncCallback(read), null);
             }
             catch(Exception ex)
@@ -183,7 +185,9 @@ namespace LViewer_Client
             if(textBox_Input.Text!= "")
             {
                 update_content_board(user + ": " + textBox_Input.Text + (char)13 + (char)10);
+
                 send_command("chat|" +(textBox_Input.Text) +str);
+
                 textBox_Input.Text = string.Empty;
             }
         }

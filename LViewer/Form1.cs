@@ -29,7 +29,7 @@ namespace LViewer
         }
 
         //
-        //cập nhật status ra màn hình
+        //cập nhật tin nhắnra màn hình
         //
 
         void update_content_board(string statusMessage)
@@ -37,8 +37,9 @@ namespace LViewer
        
                 listBox_Status.Items.Add(statusMessage);
         }
-
-
+        //
+        // cập nhật log
+        //
         void update_content_board1(string statusMessage)
         {
 

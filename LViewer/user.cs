@@ -32,6 +32,7 @@ namespace LViewer
                 writer.Write(Data + (char)13 + (char)10);
                 writer.Flush();
              }
+        
         }
 
         private void stream_receiver(IAsyncResult iar)
