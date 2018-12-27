@@ -305,5 +305,11 @@ namespace LViewer_Client
                  this.Dispose();
             }
         }
+
+        private void checkForUpdateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Chức năng chưa được xây dựng. Xin vui lòng quay lại sau! ");
+     
+        }
     }
 }

@@ -124,21 +124,22 @@
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(203, 26);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // aboutLViewerToolStripMenuItem
             // 
             this.aboutLViewerToolStripMenuItem.Name = "aboutLViewerToolStripMenuItem";
-            this.aboutLViewerToolStripMenuItem.Size = new System.Drawing.Size(203, 26);
+            this.aboutLViewerToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.aboutLViewerToolStripMenuItem.Text = "About LViewer";
             this.aboutLViewerToolStripMenuItem.Click += new System.EventHandler(this.aboutLViewerToolStripMenuItem_Click);
             // 
             // checkForUpdatesToolStripMenuItem
             // 
             this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
-            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(203, 26);
+            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.checkForUpdatesToolStripMenuItem.Text = "Check for updates";
+            this.checkForUpdatesToolStripMenuItem.Click += new System.EventHandler(this.checkForUpdatesToolStripMenuItem_Click);
             // 
             // pictureBox1
             // 
