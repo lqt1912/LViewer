@@ -222,7 +222,16 @@ namespace LViewer
             label_IP.Text = System.Net.Dns.GetHostName();
             label_Port.Text = PORT_NUMBER.ToString();
             textBox_Input.Focus();
-            
+
+            //test
+            var host = Dns.GetHostEntry(Dns.GetHostName());           
+            foreach (var ip in host.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    label_Port.Text = ip.ToString();
+                }
+            }
 
         }
 

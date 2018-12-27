@@ -14,11 +14,11 @@ namespace LViewer_Client
 {
     public partial class Form_Main : Form
     {
-  
+
         public Form_Main()
         {
             InitializeComponent();
-          
+
         }
         const int MAX_BUFFER_SIZE = 255;
         const int PORT_NUMBER = 9998;
@@ -27,7 +27,7 @@ namespace LViewer_Client
         byte[] readBuffer = new byte[MAX_BUFFER_SIZE];
         string str = " .  ";
         string myIP = "127.0.0.1";
-       
+
         //
         //đánh dấu mất kết nối
         //
@@ -44,11 +44,18 @@ namespace LViewer_Client
 
         void send_command(string Data)
         {
-            lock (client.GetStream())
+            try
             {
-                StreamWriter writer = new StreamWriter(client.GetStream());
-                writer.Write(Data + (char)13);
-                writer.Flush();
+                lock (client.GetStream())
+                {
+                    StreamWriter writer = new StreamWriter(client.GetStream());
+                    writer.Write(Data + (char)13);
+                    writer.Flush();
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Unable to connect to server!");
             }
 
         }
@@ -67,7 +74,7 @@ namespace LViewer_Client
             frmLogin.Dispose();
             user = frmLogin.textBox_UserFormLogin.Text;
             user = frmLogin.labelName;
-            label_UsernameFixed.Text = user; 
+            label_UsernameFixed.Text = user;
         }
 
         //
@@ -76,7 +83,7 @@ namespace LViewer_Client
 
         void update_content_board(string text)
         {
-           // CheckForIllegalCrossThreadCalls = false;
+            // CheckForIllegalCrossThreadCalls = false;
             textBox_Status.AppendText(text);
         }
 
@@ -89,28 +96,31 @@ namespace LViewer_Client
         private void Form_Main_Load(object sender, EventArgs e)
         {
             Form_Login frmLogin = new Form_Login();
-            try
-            {
-                client = new TcpClient("localhost", PORT_NUMBER);
-                client.GetStream().BeginRead(readBuffer, 0, MAX_BUFFER_SIZE, new AsyncCallback(read), null);
-                this.Show();
-                login_process();
-                textBox_Input.Focus();
-            }
+            button_Connect.Focus();
+            button_PublicChat.Enabled = false;
+            button_Send.Enabled = false;
+            button_Update.Enabled = false;
+            //try
+            //{
+            //    client = new TcpClient("localhost", PORT_NUMBER);
+            //    client.GetStream().BeginRead(readBuffer, 0, MAX_BUFFER_SIZE, new AsyncCallback(read), null);
+            //    this.Show();
+            //    login_process();
+            //    textBox_Input.Focus();
+            //}
 
-            catch (Exception ex)
-            {
-                MessageBox.Show("Unable to connect to sever! ", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                this.Dispose();
-            }
-        } 
+            //catch (Exception ex)
+            //{
+            //    
+            //}
+        }
 
         //
         //Xử lý online list 
         //
         void online_user_list(string[] users)
         {
-            for( int i=1; i<users.Length; i++)
+            for (int i = 1; i < users.Length; i++)
             {
                 listBox_Online.Items.Add(users[i]);
             }
@@ -121,10 +131,10 @@ namespace LViewer_Client
             string[] dataArray;
             dataArray = strMessage.Split((char)124);
 
-            switch(dataArray[0])
+            switch (dataArray[0])
             {
                 case "join":
-                    update_content_board1("bạn đã đăng nhập thành công!  "+(char)13 + (char)10 );
+                    update_content_board1("bạn đã đăng nhập thành công!  " + (char)13 + (char)10);
                     break;
                 case "chat":
                     if (dataArray[1].Substring(0, 10) == "Waiting...")
@@ -137,7 +147,7 @@ namespace LViewer_Client
                         if (subStringYes == user)
                             update_content_board(((data.Substring(0, data.Length - user.Length)) + (char)13 + (char)10));
                         else if (subStringNo == " .  ")
-                            update_content_board((data.Substring(0,data.Length -" .  ".Length) )+ (char)13 + (char)10);
+                            update_content_board((data.Substring(0, data.Length - " .  ".Length)) + (char)13 + (char)10);
                     }
                     break;
                 case "refuse":
@@ -150,7 +160,7 @@ namespace LViewer_Client
                     update_content_board("SERVER: " + dataArray[1] + (char)13 + (char)10);
                     break;
             }
-            
+
         }
 
         //
@@ -164,7 +174,7 @@ namespace LViewer_Client
             try
             {
                 BytesRead = client.GetStream().EndRead(iar);
-                if(BytesRead <1)
+                if (BytesRead < 1)
                 {
                     mark_as_disconected();
                     return;
@@ -174,7 +184,7 @@ namespace LViewer_Client
 
                 client.GetStream().BeginRead(readBuffer, 0, MAX_BUFFER_SIZE, new AsyncCallback(read), null);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 mark_as_disconected();
             }
@@ -182,11 +192,11 @@ namespace LViewer_Client
 
         private void button_Send_Click(object sender, EventArgs e)
         {
-            if(textBox_Input.Text!= "")
+            if (textBox_Input.Text != "")
             {
                 update_content_board(user + ": " + textBox_Input.Text + (char)13 + (char)10);
 
-                send_command("chat|" +(textBox_Input.Text) +str);
+                send_command("chat|" + (textBox_Input.Text) + str);
 
                 textBox_Input.Text = string.Empty;
             }
@@ -200,7 +210,7 @@ namespace LViewer_Client
         private void listBox_Online_SelectedIndexChanged(object sender, EventArgs e)
         {
             str = listBox_Online.Text;
-            label_Private.Text ="Bạn đang chat private với: " + str;
+            label_Private.Text = "Bạn đang chat private với: " + str;
         }
 
         private void Form_Main_FormClosing(object sender, FormClosingEventArgs e)
@@ -256,12 +266,12 @@ namespace LViewer_Client
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void Form_Main_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.Enter)
+            if (e.KeyCode == Keys.Enter)
             {
                 button_Send.PerformClick();
             }
@@ -272,6 +282,27 @@ namespace LViewer_Client
             if (e.KeyCode == Keys.Enter)
             {
                 button_Send.PerformClick();
+            }
+        }
+
+        private void button_Connect_Click(object sender, EventArgs e)
+        {
+            string mystr = textBox_InputIP.Text;
+            try
+            {
+                client = new TcpClient(mystr, PORT_NUMBER);
+                client.GetStream().BeginRead(readBuffer, 0, MAX_BUFFER_SIZE, new AsyncCallback(read), null);
+                this.Show();
+                login_process();
+                textBox_Input.Focus();
+                button_Update.Enabled = true;
+                button_Send.Enabled = true;
+                button_PublicChat.Enabled = true;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Unable to connect to sever! ", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                 this.Dispose();
             }
         }
     }
