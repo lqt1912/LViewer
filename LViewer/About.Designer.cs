@@ -31,12 +31,12 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(About));
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.listBox2 = new System.Windows.Forms.ListBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.listBox1 = new System.Windows.Forms.ListBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.listBox2 = new System.Windows.Forms.ListBox();
             this.button_Exit = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -73,13 +73,36 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(308, 238);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
+            // listBox2
+            // 
+            this.listBox2.AllowDrop = true;
+            this.listBox2.BackColor = System.Drawing.SystemColors.Control;
+            this.listBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.listBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listBox2.FormattingEnabled = true;
+            this.listBox2.ItemHeight = 16;
+            this.listBox2.Location = new System.Drawing.Point(102, 98);
+            this.listBox2.Name = "listBox2";
+            this.listBox2.Size = new System.Drawing.Size(203, 137);
+            this.listBox2.TabIndex = 5;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label4.Location = new System.Drawing.Point(3, 95);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(93, 143);
+            this.label4.TabIndex = 4;
+            this.label4.Text = "Discription";
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(92, 67);
+            this.label1.Size = new System.Drawing.Size(93, 67);
             this.label1.TabIndex = 0;
             this.label1.Text = "Design by";
             // 
@@ -89,7 +112,7 @@
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label2.Location = new System.Drawing.Point(3, 67);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(92, 28);
+            this.label2.Size = new System.Drawing.Size(93, 28);
             this.label2.TabIndex = 1;
             this.label2.Text = "Version";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -98,9 +121,9 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label3.Location = new System.Drawing.Point(101, 67);
+            this.label3.Location = new System.Drawing.Point(102, 67);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(204, 28);
+            this.label3.Size = new System.Drawing.Size(203, 28);
             this.label3.TabIndex = 2;
             this.label3.Text = "0.9.9";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -112,33 +135,10 @@
             this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listBox1.FormattingEnabled = true;
             this.listBox1.ItemHeight = 16;
-            this.listBox1.Location = new System.Drawing.Point(101, 3);
+            this.listBox1.Location = new System.Drawing.Point(102, 3);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(204, 61);
+            this.listBox1.Size = new System.Drawing.Size(203, 61);
             this.listBox1.TabIndex = 3;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label4.Location = new System.Drawing.Point(3, 95);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(92, 143);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "Discription";
-            // 
-            // listBox2
-            // 
-            this.listBox2.AllowDrop = true;
-            this.listBox2.BackColor = System.Drawing.SystemColors.Control;
-            this.listBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.listBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listBox2.FormattingEnabled = true;
-            this.listBox2.ItemHeight = 16;
-            this.listBox2.Location = new System.Drawing.Point(101, 98);
-            this.listBox2.Name = "listBox2";
-            this.listBox2.Size = new System.Drawing.Size(204, 137);
-            this.listBox2.TabIndex = 5;
             // 
             // button_Exit
             // 
@@ -159,6 +159,7 @@
             this.Controls.Add(this.button_Exit);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.pictureBox1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "About";
             this.Text = "About";
             this.Load += new System.EventHandler(this.About_Load);
